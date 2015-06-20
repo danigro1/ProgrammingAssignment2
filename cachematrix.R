@@ -23,8 +23,11 @@ makeCacheMatrix <- function(x = matrix()) {
        setInverse = setInverse,
        getInverse = getInverse)
 }
-## Write a short comment describing this function
 
+## This function will check to see if the matrix arg matches one that
+## has been cached and if available will return the cached inverted
+## version.  Otherwise, it will invert the matrix, store it in cache
+## and return the inverted matrix
 cacheSolve <- function(x, ...) {
   ## need a way to compare two matrixes
   matrixtest <- function(m1,m2){
@@ -35,8 +38,12 @@ cacheSolve <- function(x, ...) {
   ## is the current matrix already solved???
   ## if so, use the cache version
   ## this checks to see that it's the same matrix
+  ## note always true on first pass
   if (matrixtest(data,x$get())) {
     ## this checks to see if the inverse is already cached
+    ## Note that this code would need to be repeated in another process
+    ## to ever execute the "getting cached data" code, it will not fall
+    ## into this code on the initial run.    
     i <- x$getInverse()
     if(!is.null(i)) {
       message("getting cached data")
